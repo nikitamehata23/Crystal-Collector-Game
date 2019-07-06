@@ -1,150 +1,77 @@
 
-   $(document).ready(function() {
+     //  variables
+
+         
+     var minNumber = 19;
        
-	// random computer variable array
-	var rand = [];
+     var maxNumber = 120;
 
-	for (var r = 19; r < 121; r++) {
-		rand.push(r);
-	}
+     var randomCompNumberBox = randomNumberFromRange(minNumber, maxNumber);
 
-	// crystal numbers array
-	var crystals = [];
+     var lossesBox = 0;
 
-	for (var c = 1; c < 13; c++) {
+     var winsBox = 0;
 
-		crystals.push(c);
-	}
+     var playerScore = 0;
 
-	// console.log(crystals);
+     var rupeeValues = [0,0,0,0];
 
-	// ******* GLOBAL VARIABLES *******
+     assignRupeeValues();
+     
+     document.getElementById("wins").textContent = `WINS: 0`;
+     document.getElementById("losses").textContent = `LOSSES: 0`;
 
-	// random variables selected by computer
-	var randNumber; // number to match
-	var crystalNumbers = []; // for array of random crystal values
+     function clearGame() {
+       console.log("Clearing");
+       lossesBox = 0;
+       winsBox = 0;
 
-	var c1;
-	var c2;
-	var c3;
-	var c4;
+       gameOver();
 
-  var totalScore = 0; // user's score
+       refreshView();
 
-	var wins = 0;
-	var losses = 0;
+     }
 
-	// ******* FUNCTIONS *******
+     function addToScore(id) {
 
-	// pick a random number
-	function pickRandomNumber(arr) {
+       playerScore+=rupeeValues[parseInt(id)];
 
-		var x = arr[Math.floor(Math.random() * arr.length)];
-		randNumber = x;
-		$("#randomNumber").html(randNumber);
+       if (playerScore === randomCompNumberBox){
+         winsBox += 1;
+         gameOver();
+       }
+       if (playerScore > randomCompNumberBox){
+         lossesBox += 1;
+         gameOver();
+       }
 
-		console.log("random number: " + randNumber);
+       refreshView();
 
-	} // END of pickRandomNumber function
+     }
 
-	// pick random numbers for crystals
+     function refreshView(){
+       document.getElementById("playerScore").textContent = `PLAYERSCORE: ${playerScore}`;
+       document.getElementById("wins").textContent = `WINS: ${winsBox}`;  
+       document.getElementById("losses").textContent = `LOSSES: ${lossesBox}`;
+       document.getElementById("randomCompNumberBox").textContent = randomCompNumberBox;
+     }
 
-	function pickRandomCrystals(arr) {
+     function gameOver(){
+       randomCompNumberBox = randomNumberFromRange(minNumber, maxNumber);
+       playerScore = 0;
+       assignRupeeValues();
+     }
+     
+     function assignRupeeValues(){
+       rupeeValues[0] = randomNumberFromRange(1, 12);
+       rupeeValues[1] = randomNumberFromRange(1, 12);
+       rupeeValues[2] = randomNumberFromRange(1, 12);
+       rupeeValues[3] = randomNumberFromRange(1, 12);
+     }
 
-		for (var y = 0; y < 4; y++){
-
-			var a = arr[Math.floor(Math.random() * arr.length)];
-
-			crystalNumbers.push(a);
-		}
-    // check which numbers have been picked
-		console.log("crystal numbers: " + crystalNumbers);
-
-	} // END of pickRandomCrystals function
-
-	function crystalValues(arr) {
-
-		// change value of each crystal button according to array
-		for (i = 0; i < arr.length; i++) {
-
-		$("#button-" + (i+1)).attr("value", arr[i]);
-		console.log(this);
-		}
-		c1 = arr[0];
-		c2 = arr[1];
-		c3 = arr[2];
-		c4 = arr[3];
-	} // END of crystalValues function
-
-	function gameReset(x) {
-
-		crystalNumbers = []; // clears crystal number values
-
-		pickRandomNumber(rand);
-
-		pickRandomCrystals(crystals);
-
-		crystalValues(crystalNumbers);
-
-		totalScore = 0;
-		$("#totalNumber").html(totalScore);
-
-		alert(x);
-	} // END of gameReset function
-
-	// *** GAME SETTINGS AT START ***
-
-	pickRandomNumber(rand); // random number to match
-	pickRandomCrystals(crystals); // array of random crystal values
-	crystalValues(crystalNumbers);
-
-		// crystal button functions
-
-		$("#button-1").on("click", function() {
-
-			totalScore += c1;
-			$("#totalNumber").html(totalScore);
-		});
-
-		$("#button-2").on("click", function() {
-
-			totalScore += c2;
-			$("#totalNumber").html(totalScore);
-		});
-
-		$("#button-3").on("click", function() {
-
-			totalScore += c3;
-			$("#totalNumber").html(totalScore);
-		});
-
-		$("#button-4").on("click", function() {
-
-			totalScore += c4;
-			$("#totalNumber").html(totalScore);
-		});
-
-	$("button").on("click", function() {
-		// this is what happens if the user wins
-		if (totalScore == randNumber) {
-
-			wins++;
-			console.log(totalScore);
-			$("#totalNumber").html(totalScore);
-			$("#wins").html("Wins: " + wins);
-
-
-			setTimeout(function() {gameReset(" CONGRATS!! YOU WIN!!")}, 200);
-		}
-
-		else if (totalScore > randNumber){
-
-			losses++;
-			$("#totalNumber").html(totalScore);
-			$("#losses").html("Losses: " + losses);
-
-			setTimeout(function() {gameReset("OOPS...YOU LOSE!")}, 200);
-		}
-	});
-
-}); 
+     function randomNumberFromRange(min,max)
+     {
+       return Math.floor(Math.random()*(max-min+1)+min);
+     }
+     
+     $('#randomCompNumberBox').text(randomCompNumberBox);
