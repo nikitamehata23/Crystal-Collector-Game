@@ -20,9 +20,9 @@ Crystal-Collector-Game is a Javascript app that uses the Math.floor(Math.random(
 <a name="installation"></a>
 ## Local Installation
 
-### Step 1: Git Clone
+### Step 1: Github
 
-> git clonehttps://github.com/nikitamehata23/Crystal-Collector-Game
+> Code [https://github.com/nikitamehata23/Crystal-Collector-Game]
 
 ### Demo
 
